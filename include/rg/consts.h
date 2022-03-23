@@ -1,6 +1,4 @@
-//
-// Created by jocacoca on 1.9.21..
-//
+
 
 #ifndef PROJECT_BASE_CONSTS_H
 #define PROJECT_BASE_CONSTS_H
@@ -11,7 +9,7 @@
 #include <string>
 int width = 1920;
 int height = 1080;
-const char *title = "Naruto";
+const char *title = "Srce";
 float lastX = (float)width / 2.0;
 float lastY = (float)height / 2.0;
 bool firstMouse = true;
@@ -95,7 +93,6 @@ void makeLight(Shader shader,int i,std::vector<glm::vec3> position,int currFrame
         lightingShader.setFloat("pointLights[3].linear", 0.09);
         lightingShader.setFloat("pointLights[3].quadratic", 0.032);
         */
-
 
 float cubeVertices[] = {
         // positions          // normals          //texture cords
@@ -186,7 +183,7 @@ float skyboxVertices[] = {
         1.0f, -1.0f,  1.0f
 };
 
-std::vector<glm::vec3> cubePositions = CubeCircle(10,5);
+std::vector<glm::vec3> cubePositions = CubeCircle(10,3);
 // positions of the point lights
 std::vector<glm::vec3> pointLightPositions = CubeCircle(6,5);
 std::vector<glm::vec3> pointLightPositionsOuter = CubeCircle(13,5);

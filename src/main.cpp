@@ -165,24 +165,34 @@ int main()
         glBindTexture(GL_TEXTURE_2D, fireTex);
         // we now draw as many light bulbs as we have point lights.
         glBindVertexArray(lightCubeVAO);
-        float i = 0;
-        for (auto & pointLightPosition : pointLightPositions)
+        for (int i=0;i<pointLightPositions.size()/2;i++)
         {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, pointLightPosition);
-            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            model = glm::translate(model, pointLightPositions[i]);
             model = glm::rotate(model,currentFrame,glm::vec3(0.0f,1.0f,0.0f));
-            model = glm::translate(model, glm::vec3(1.0f,i,1.0f));
+            model = glm::translate(model, glm::vec3(1.0f,i*0.5,1.0f));
+            model = glm::scale(model, glm::vec3(0.2f));
             cubeShader.setMat4("model", model);
-            i++;
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        for (int i=0;i<pointLightPositions.size()/2;i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::translate(model,glm::vec3(-2.0f,0.0f,0.0f));
+            model = glm::rotate(model,currentFrame,glm::vec3(0.0f,1.0f,0.0f));
+            model = glm::translate(model, glm::vec3(1.0f,i*0.5,1.0f));
+            model = glm::scale(model, glm::vec3(0.2f));
+            cubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
         glDisable(GL_CULL_FACE);
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         model = glm::mat4(1.0f);
         model=glm::translate(model,glm::vec3(0.0f,-1.0f,0.0f));
-        model = glm::scale(model,glm::vec3(0.3f,0.3f,0.3f));
         model = glm::rotate(model,4.7f,glm::vec3(1.0f,0.0f,0.0f));
+        model = glm::scale(model,glm::vec3(0.35f,0.35f,0.35f));
         modelShader.use();
         if(k<pointLightPositions.size()) {
             makeLight(modelShader, k, pointLightPositions,sin(k));
@@ -204,7 +214,7 @@ int main()
         cyborgModel.Draw(modelShader);
 
 
-
+//*
         lightingShader.use();
         lightingShader.setVec3("viewPos", camera.Position);
         lightingShader.setFloat("material.shininess", 32.0f);
@@ -252,7 +262,8 @@ int main()
         lightingShader.use();
         for(auto & cubePosition : cubePositions) {
             model = glm::mat4(1.0f);
-            model = glm::rotate(model,currentFrame,glm::vec3(0.0f,1.0f,0.0f));
+            model = glm::rotate(model,glm::radians(currentFrame*0.5f),glm::vec3(0.0f,1.0f,0.0f));
+            model = glm:: translate(model, glm::vec3(glm::cos(currentFrame),glm::sin(currentFrame),1.0f));
             lightingShader.setMat4("model", glm::translate(model,cubePosition));
             lightingShader.setMat4("view", view);
             lightingShader.setMat4("projection", projection);
