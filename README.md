@@ -1,4 +1,4 @@
-# rg_projekat
+# rg
 # Uputstvo
 1. `git clone git@github.com:sakisa2/rg.git`
 2. CLion -> Open -> path/to/my/project_base 
