@@ -1,5 +1,4 @@
 
-
 #ifndef PROJECT_BASE_CONSTS_H
 #define PROJECT_BASE_CONSTS_H
 #include <rg/Camera.h>

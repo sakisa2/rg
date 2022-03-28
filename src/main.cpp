@@ -198,6 +198,7 @@ int main()
             makeLight(modelShader, k, pointLightPositions,sin(k));
             k++;
         }
+        modelShader.setVec3("specular", glm::vec3(0.4f));
         modelShader.setVec3("spotLight.position", camera.Position);
         modelShader.setVec3("spotLight.direction", camera.Front);
         modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);

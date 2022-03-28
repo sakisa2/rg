@@ -8,7 +8,7 @@ in vec3 FragPos;
 #define NR_POINT_LIGHTS 30
 
 uniform sampler2D texture_diffuse1;
-//uniform sampler2D texture_specular1;
+uniform vec3 specular;
 
 struct PointLight {
     vec3 position;
@@ -72,7 +72,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // combine results
     vec3 ambient = light.ambient * vec3(texture(texture_diffuse1, TexCoords));
     vec3 diffuse = light.diffuse * diff * vec3(texture(texture_diffuse1, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(texture_diffuse1, TexCoords));
+    vec3 specular = light.specular * spec * specular;
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
@@ -98,7 +98,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // combine results
     vec3 ambient = light.ambient * vec3(texture(texture_diffuse1, TexCoords));
     vec3 diffuse = light.diffuse * diff * vec3(texture(texture_diffuse1, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(texture_diffuse1, TexCoords));
+    vec3 specular = light.specular * spec * specular;
     ambient *= attenuation * intensity;
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
