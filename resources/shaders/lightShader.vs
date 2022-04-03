@@ -7,9 +7,9 @@ out vec3 FragPos;
 out vec3 Normal;
 out vec2 TexCoords;
 
-uniform mat4 model;
-uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 out gl_PerVertex { vec4 gl_Position; };
 void main()
 {
