@@ -83,7 +83,7 @@ int main()
    // Shader shaderBlur("blur.vs","blur.fs");
     //Shader shaderBloomFinal("bloom_final.vs", "bloom_final.fs");
 
-    Model cyborgModel("resources/objects/Heart/12190_Heart_v1_L3.obj");//bloom
+    Model cyborgModel("resources/objects/Heart/12190_Heart_v1_L3.obj", true);//bloom
 
     // cube VAO
     unsigned int cubeVAO, cubeVBO;
@@ -115,8 +115,8 @@ int main()
     glEnableVertexAttribArray(1);
 
 
-    stbi_set_flip_vertically_on_load(false);//dodala
-    unsigned int fireTex = loadTexture( FileSystem::getPath("resources/textures/fire_tex.jpg").c_str());
+    //stbi_set_flip_vertically_on_load(false);//dodala
+    unsigned int fireTex = loadTexture( FileSystem::getPath("resources/textures/fire_tex.jpg").c_str(), true);
 
     // skybox2 VAO
     unsigned int skyboxVAO, skyboxVBO;
@@ -149,7 +149,7 @@ int main()
 
     unsigned int colorBuffers[2];
     glGenTextures(2, colorBuffers);
-    for (unsigned int i = 0; i < 2; i++)//zasto 2?
+    for (unsigned int i = 0; i < 2; i++)
     {
         glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
@@ -165,7 +165,7 @@ int main()
     glGenRenderbuffers(1, &rboDepth);
     glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT);
-    glBindFramebuffer(GL_FRAMEBUFFER,hdrFBO);
+    //glBindFramebuffer(GL_FRAMEBUFFER,hdrFBO);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
 
     // tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
@@ -199,16 +199,18 @@ int main()
 //
 
     //load textures for lightning
-    unsigned int diffuseMap = loadTexture(FileSystem::getPath("resources/textures/container2.jpg").c_str());
-    unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/container2_specular.png").c_str());
+    unsigned int diffuseMap = loadTexture(FileSystem::getPath("resources/textures/container2.jpg").c_str(), true);
+    unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/container2_specular.png").c_str(), true);
     // shader activation
     cubeShader.use();
     cubeShader.setInt("texture1", 0);
+
     lightingShader.use();
     lightingShader.setInt("material.diffuse", 0);
     lightingShader.setInt("material.specular", 1);
+
     skyboxShader.use();
-    skyboxShader.setInt("skybox2", 0);
+    skyboxShader.setInt("skybox", 0);
     int j=0;
     int k=0;
 
@@ -405,6 +407,8 @@ int main()
         hdrShader.setBool("bloom", bloom);
         hdrShader.setFloat("exposure", exposure);
         renderQuad();//bloom
+
+        std::cout << "bloom: " << (bloom ? "on" : "off") << "| exposure: " << exposure << std::endl;
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);

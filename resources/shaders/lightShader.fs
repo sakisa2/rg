@@ -1,5 +1,6 @@
 #version 330 core
-out vec4 FragColor;
+layout (location = 0) out vec4 FragColor;
+layout (location = 1) out vec4 BrightColor;
 
 struct Material {
     sampler2D diffuse;
@@ -78,8 +79,14 @@ void main()
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     // phase 3: spot light
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    float brightness = dot(result, vec3(0.2126, 0.7152, 0.0722));
+    if(brightness > 1.0)
+        BrightColor = vec4(result, 1.0);
+    else
+        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 
-    FragColor = vec4(result, 1.0)*vec4(0.392,0.584,0.929, 0.45);
+    FragColor = vec4(result, 1.0);
+    //  * vec4(0.392,0.584,0.929, 0.45);
 }
 
 // calculates the color when using a directional light.

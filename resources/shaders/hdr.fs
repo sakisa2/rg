@@ -1,35 +1,35 @@
- #version 330 core
- out vec4 FragColor;
+#version 330 core
+out vec4 FragColor;
 
- in vec2 TexCoords;
+in vec2 TexCoords;
 
- uniform sampler2D hdrBuffer;
- uniform sampler2D bloomBlur;
- uniform bool hdr;
- uniform bool bloom;
- uniform float exposure;
+uniform sampler2D hdrBuffer;
+uniform sampler2D bloomBlur;
 
- void main()
- {
-         const float gamma = 2.2;
-         vec3 hdrColor = texture(hdrBuffer, TexCoords).rgb;
-         vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
+uniform bool hdr;
+uniform bool bloom;
+uniform float exposure;
 
-         if (bloom) {
-                 hdrColor += bloomColor;
-         }
+void main()
+{
+    const float gamma = 2.2;
+    vec3 hdrColor = texture(hdrBuffer, TexCoords).rgb;
+    vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
 
-        vec3 result = hdrColor;
+    if (bloom) {
+        hdrColor += bloomColor;
+    }
 
-         if(hdr)
-         {
-             result = vec3(1.0) - exp(-hdrColor * exposure);
-             result = pow(result, vec3(1.0 / gamma));
-             FragColor = vec4(result, 1.0);
-         }
-         else
-         {
-             vec3 result = pow(hdrColor, vec3(1.0 / gamma));
-             FragColor = vec4(result, 1.0);
-         }
- }
+    vec3 result = hdrColor;
+    if(hdr)
+    {
+        result = vec3(1.0) - exp(-hdrColor * exposure);
+        result = pow(result, vec3(1.0 / gamma));
+        FragColor = vec4(result, 1.0);
+    }
+    else
+    {
+        vec3 result = pow(hdrColor, vec3(1.0 / gamma));
+        FragColor = vec4(result, 1.0);
+    }
+}
