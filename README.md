@@ -8,3 +8,4 @@
 6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs` 
 7. ALT+SHIFT+F10 -> project_base -> run 
 8. Implementirana je oblast skybox iz grupe A
+9. Implementiran je Bloom,HDR iz grupe B
