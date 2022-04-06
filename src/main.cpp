@@ -23,7 +23,7 @@ bool hdr = true;
 bool hdrKeyPressed = false;
 bool bloom = true;
 bool bloomKeyPressed = false;
-float exposure = 1.0f;
+float exposure = 0.4f;
 
 // camera
 Camera camera(glm::vec3(1.0f, 3.0f, 20.0f));
@@ -278,8 +278,8 @@ int main()
             cubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-        glDisable(GL_CULL_FACE);
-        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+
+        // change depth function so depth test passes when values are equal to depth buffer's content
         model = glm::mat4(1.0f);
         model=glm::translate(model,glm::vec3(0.0f,-1.0f,0.0f));
         model = glm::rotate(model,4.7f,glm::vec3(1.0f,0.0f,0.0f));
@@ -364,6 +364,9 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
             glBindVertexArray(0);
         }
+
+        glDisable(GL_CULL_FACE);
+        glDepthFunc(GL_LEQUAL);
         // draw skybox2 as last
         skyboxShader.use();
         view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
@@ -379,6 +382,8 @@ int main()
         glEnable(GL_CULL_FACE);
 
         //load pingpong
+        glDisable(GL_CULL_FACE);
+
         bool horizontal = true, first_iteration = true;
         unsigned int amount = 10;
         bloomShader.use();
@@ -398,6 +403,7 @@ int main()
         // **********************************************
         // load hdr
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_CULL_FACE);
         hdrShader.use();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, colorBuffers[0]);
@@ -407,7 +413,7 @@ int main()
         hdrShader.setBool("bloom", bloom);
         hdrShader.setFloat("exposure", exposure);
         renderQuad();//bloom
-
+        glEnable(GL_CULL_FACE);
         std::cout << "bloom: " << (bloom ? "on" : "off") << "| exposure: " << exposure << std::endl;
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

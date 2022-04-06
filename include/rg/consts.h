@@ -38,13 +38,13 @@ void makeLight(Shader shader,int i,std::vector<glm::vec3> position,int currFrame
     shader.setVec3(currentLight.append(".position"),position[i]);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".ambient"),0.1f, 0.1f, 0.1f);
+    shader.setVec3(currentLight.append(".ambient"),0.01f, 0.01f, 0.01f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".diffuse"),0.5f, 0.5f, 0.5f);
+    shader.setVec3(currentLight.append(".diffuse"),0.65f, 0.65f, 0.65f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".specular"),1.0f, 1.0f, 1.0f);
+    shader.setVec3(currentLight.append(".specular"),0.2f, 0.2f, 0.2f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
     shader.setFloat(currentLight.append(".constant"),0.05f);
