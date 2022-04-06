@@ -85,8 +85,7 @@ void main()
     else
         BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 
-    FragColor = vec4(result, 1.0);
-    //  * vec4(0.392,0.584,0.929, 0.45);
+    FragColor = vec4(result, 1.0) * vec4(0.392,0.584,0.929, 0.45);
 }
 
 // calculates the color when using a directional light.

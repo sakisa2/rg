@@ -32,28 +32,30 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 void makeLight(Shader shader,int i,std::vector<glm::vec3> position,int currFrame){
 
     float time = currFrame*100;
+    float lin = 0.14f;
+    float kvad = 0.07f;
 
     std::string currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
     shader.setVec3(currentLight.append(".position"),position[i]);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".ambient"),0.01f, 0.01f, 0.01f);
+    shader.setVec3(currentLight.append(".ambient"),0.05f, 0.05f, 0.05f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".diffuse"),0.65f, 0.65f, 0.65f);
+    shader.setVec3(currentLight.append(".diffuse"),1.65f, 1.65f, 1.65f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setVec3(currentLight.append(".specular"),0.2f, 0.2f, 0.2f);
+    shader.setVec3(currentLight.append(".specular"),0.15f, 0.15f, 0.15f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setFloat(currentLight.append(".constant"),0.05f);
+    shader.setFloat(currentLight.append(".constant"),0.85f);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setFloat(currentLight.append(".linear"),0.25f);
+    shader.setFloat(currentLight.append(".linear"),lin);
     currentLight = "pointLights[";
     currentLight.append(std::to_string(i)).append("]");
-    shader.setFloat(currentLight.append(".quadratic"),0.03f);
+    shader.setFloat(currentLight.append(".quadratic"),kvad);
 }
 
 

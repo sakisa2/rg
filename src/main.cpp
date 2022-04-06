@@ -67,9 +67,9 @@ int main()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_FRONT);
 
     //shaders
     Shader lightingShader("resources/shaders/lightShader.vs", "resources/shaders/lightShader.fs");
@@ -79,9 +79,6 @@ int main()
     Shader hdrShader("resources/shaders/hdr.vs","resources/shaders/hdr.fs");
     Shader bloomShader("resources/shaders/bloom.vs","resources/shaders/bloom.fs");
 
-    //Shader shaderLight("bloom.vs","light_box.fs");
-   // Shader shaderBlur("blur.vs","blur.fs");
-    //Shader shaderBloomFinal("bloom_final.vs", "bloom_final.fs");
 
     Model cyborgModel("resources/objects/Heart/12190_Heart_v1_L3.obj", true);//bloom
 
@@ -306,7 +303,9 @@ int main()
         cyborgModel.Draw(modelShader);
 
 
-//*
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
+
         lightingShader.use();
         lightingShader.setVec3("viewPos", camera.Position);
         lightingShader.setFloat("material.shininess", 32.0f);
@@ -342,7 +341,7 @@ int main()
         lightingShader.setMat4("view", view);
 
         model = glm::mat4(1.0f);
-        lightingShader.setMat4("model", model);
+        //lightingShader.setMat4("model", model);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
@@ -351,11 +350,13 @@ int main()
         glBindTexture(GL_TEXTURE_2D, specularMap);
         // draw scene as normal
         glBindVertexArray(cubeVAO);
-        lightingShader.use();
+        //lightingShader.use();
+
         for(auto & cubePosition : cubePositions) {
+            //model = glm::mat4(1.0f);
             model = glm::mat4(1.0f);
             model = glm::rotate(model,glm::radians(currentFrame*0.5f),glm::vec3(0.0f,1.0f,0.0f));
-            model = glm:: translate(model, glm::vec3(glm::cos(currentFrame),glm::sin(currentFrame),1.0f));
+            model = glm::translate(model, glm::vec3(glm::cos(currentFrame),glm::sin(currentFrame),1.0f));
             lightingShader.setMat4("model", glm::translate(model,cubePosition));
             lightingShader.setMat4("view", view);
             lightingShader.setMat4("projection", projection);
